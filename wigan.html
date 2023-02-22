@@ -1,0 +1,77 @@
+
+<!-- That thing I did to look like a pdf. -->
+        <div
+          :class="charity ? 'charityOuter' : 'businessOuter'"
+          class="my-3 px-2 py-2 row"
+        >
+          <div class="col-12 col-md-6 mt-1">
+            <div class="inner text-center">
+              <h3 class="fs-5" v-if="charity">
+                {{ selectedItem.nameOfOrganisationAndProject }}
+              </h3>
+              <h3 class="fs-5" v-else>{{selectedItem.businessName}}</h3>
+              <p class="mb-1">{{selectedItem.basicInfo.area}}</p>
+            </div>
+            <div class="text-center mb-2">
+              <img
+                v-if="selectedItem.basicInfo.image != null"
+                class="rounded img-fluid"
+                v-bind:src="`https://www.cheshireeast.gov.uk/${selectedItem.basicInfo.image.asset.sys.uri}`"
+                v-bind:alt="selectedItem.title"
+              />
+            </div>
+            <div class="inner">
+              <template v-if="charity">
+                <h4 class="fs-6">Project overview</h4>
+                <p>{{selectedItem.projectOverview}}</p>
+              </template>
+              <template v-else>
+                <h4 class="fs-6">Who we are</h4>
+                <p>{{selectedItem.whoYouAre}}</p>
+              </template>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 flex-column d-flex mt-1">
+            <div class="inner flex-grow-0">
+              <template v-if="charity">
+                <h4 class="fs-6">What support is needed</h4>
+                <p>{{selectedItem.helpNeeded}}</p>
+              </template>
+              <template v-else>
+                <h4 class="fs-6">How we can help</h4>
+                <p v-html="selectedItem.howYouCanHelp"></p>
+              </template>
+            </div>
+
+            <div class="inner flex-grow-0">
+              <template v-if="charity">
+                <h4 class="fs-6">
+                  What difference would it make to our project?
+                </h4>
+                <p v-html="selectedItem.difference"></p>
+              </template>
+              <template v-else>
+                <h4 class="fs-6">Resources and equipment we can offer</h4>
+                <p>{{selectedItem.resourceOfferEquipment}}</p>
+              </template>
+            </div>
+
+            <div class="inner flex-grow-0">
+              <h4 class="fs-6">Contact details</h4>
+              <p>{{selectedItem.basicInfo.contactName}}</p>
+              <p>
+                Email:
+                <span
+                  v-html="addBreaks(selectedItem.basicInfo.emailAddress)"
+                ></span>
+              </p>
+              <p>Phone: {{selectedItem.basicInfo.phoneNumber}}</p>
+            </div>
+            <div class="flex-grow-0 mb-2 mt-auto">
+              <img
+                class="img-fluid float-end rounded-circle"
+                src="https://placehold.co/128x128"
+              />
+            </div>
+          </div>
+        </div>
