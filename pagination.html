@@ -1,0 +1,74 @@
+<nav
+  v-if="pageCount > 1"
+  role="navigation"
+  aria-label="Results data navigation"
+>
+  <ol class="pagination d-flex flex-wrap my-2 ms-0">
+    <li
+      class="page-item"
+      v-bind:class="{ disabled: currentPageIndex === 0 || loading }"
+    >
+      <button
+        class="page-link"
+        type="button"
+        v-bind:disabled="currentPageIndex === 0 ? true : false"
+        v-on:click="goToPage(currentPageIndex)"
+      >
+        Previous
+      </button>
+    </li>
+    <li v-if="showFirstLastBtns" class="page-item">
+      <button
+        class="page-link"
+        type="button"
+        aria-label="Next"
+        v-on:click="goToPage(1)"
+      >
+        <span aria-hidden="true">&laquo;</span>
+      </button>
+    </li>
+    <li
+      v-if="showPageBtns"
+      v-for="pageBtn in pageBtns"
+      class="page-item"
+      v-bind:class="{ disabled: currentPageIndex === pageBtn - 1 }"
+    >
+      <button class="page-link" type="button" v-on:click="goToPage(pageBtn)">
+        {{ pageBtn}}
+      </button>
+    </li>
+    <li v-if="showFirstLastBtns" class="page-item">
+      <button
+        class="page-link"
+        type="button"
+        aria-label="Next"
+        v-on:click="goToPage(pageCount)"
+      >
+        <span aria-hidden="true">&raquo;</span>
+      </button>
+    </li>
+    <li
+      class="page-item"
+      v-bind:class="{ disabled: currentPageIndex + 1 >= pageCount || loading }"
+    >
+      <button
+        class="page-link"
+        type="button"
+        v-bind:disabled="currentPageIndex + 1 >= pageCount ? true : false"
+        v-on:click="goToPage(currentPageIndex + 2)"
+      >
+        Next
+      </button>
+    </li>
+  </ol>
+</nav>
+<div v-if="loading == false" class="api-results-info">
+  <p>Total results: <strong>{{ totalCount }}</strong></p>
+  <p v-if="pageCount > 1">
+    Current page:
+    <strong>{{ currentPageIndex+1 }}</strong>
+  </p>
+</div>
+<div v-else>
+  <div class="spinner-grow" role="status"></div>
+</div>
